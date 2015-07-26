@@ -6,7 +6,7 @@ public class Transition: NSObject {
 
   public var transitionDuration: NSTimeInterval = 0.6
   public var animationDuration: NSTimeInterval = 0.3
-  public var closure: ((controller: UIViewController, show: Bool) -> Void)
+  var closure: ((controller: UIViewController, show: Bool) -> Void)
 
   public required init(closure: ((controller: UIViewController, show: Bool) -> Void)) {
     self.closure = closure
@@ -30,6 +30,9 @@ extension Transition : UIViewControllerAnimatedTransitioning {
     let screens : (from: UIViewController, to: UIViewController) = (
       transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!,
       transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!)
+    let presentedViewController = !presentingViewController
+      ? screens.from as UIViewController
+      : screens.to as UIViewController
     let viewController = !presentingViewController
       ? screens.to as UIViewController
       : screens.from as UIViewController
@@ -37,7 +40,7 @@ extension Transition : UIViewControllerAnimatedTransitioning {
     containerView.addSubview(viewController.view)
 
     UIView.animateWithDuration(animationDuration, animations: { [unowned self] in
-      self.transition(viewController, show: self.presentingViewController)
+      self.transition(presentedViewController, show: self.presentingViewController)
       }, completion: { _ in
         transitionContext.completeTransition(true)
         UIApplication.sharedApplication().keyWindow!.addSubview(screens.to.view)
