@@ -38,11 +38,12 @@ extension Transition : UIViewControllerAnimatedTransitioning {
       : screens.from as UIViewController
 
     containerView.addSubview(viewController.view)
+    containerView.addSubview(presentedViewController.view)
 
-    UIView.animateWithDuration(animationDuration, animations: { [unowned self] in
+    UIView.animateWithDuration(animationDuration, delay: 0.0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: {
       self.transition(presentedViewController, show: self.presentingViewController)
-      }, completion: { _ in
-        transitionContext.completeTransition(true)
+      }, completion: { completed in
+        transitionContext.completeTransition(completed)
         UIApplication.sharedApplication().keyWindow!.addSubview(screens.to.view)
     })
   }
