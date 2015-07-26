@@ -26,9 +26,6 @@ class ViewController: UIViewController {
   func presentController() {
     let controller = UIViewController()
     controller.view.backgroundColor = UIColor.greenColor()
-    
-    if let navigationController = navigationController {
-      presentViewController(controller, animated: true, completion: nil)
-    }
+    presentViewController(controller, animated: true, completion: nil)
   }
 }
