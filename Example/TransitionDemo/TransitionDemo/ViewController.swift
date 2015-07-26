@@ -3,7 +3,7 @@ import Transition
 
 class ViewController: UIViewController {
 
-  override func viewDidLoad() {
+  lazy var transition: Transition = {
     let transition = Transition() { controller, show in
       controller.view.transform = show
         ? CGAffineTransformIdentity
@@ -11,8 +11,11 @@ class ViewController: UIViewController {
 
       controller.view.alpha = show ? 1 : 0
     }
+    
+    return transition
+  }()
 
-    transitioningDelegate = transition
+  override func viewDidLoad() {
     modalPresentationStyle = .Custom
 
     title = "Transition Demo"
@@ -26,6 +29,9 @@ class ViewController: UIViewController {
   func presentController() {
     let controller = UIViewController()
     controller.view.backgroundColor = UIColor.greenColor()
+    controller.transitioningDelegate = transition
+    controller.view.alpha = 0.0
+
     presentViewController(controller, animated: true, completion: nil)
   }
 }
