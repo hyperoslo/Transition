@@ -10,6 +10,7 @@ class ViewController: UIViewController {
         : CGAffineTransformMakeScale(3, 3)
 
       controller.view.alpha = show ? 1 : 0
+      controller.view.backgroundColor = UIColor.redColor()
     }
     
     return transition
