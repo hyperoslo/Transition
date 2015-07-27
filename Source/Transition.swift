@@ -39,6 +39,8 @@ extension Transition : UIViewControllerAnimatedTransitioning {
 
     [viewController, presentedViewController].map { containerView.addSubview($0.view) }
 
+    transition(presentedViewController, show: !presentingViewController)
+
     UIView.animateWithDuration(animationDuration, delay: 0.0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: {
       self.transition(presentedViewController, show: self.presentingViewController)
       }, completion: { completed in

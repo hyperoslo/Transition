@@ -31,7 +31,6 @@ class ViewController: UIViewController {
     let controller = UIViewController()
     controller.view.backgroundColor = UIColor.greenColor()
     controller.transitioningDelegate = transition
-    controller.view.alpha = 0.0
 
     presentViewController(controller, animated: true, completion: nil)
   }
