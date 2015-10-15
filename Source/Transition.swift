@@ -20,13 +20,12 @@ public class Transition: NSObject {
 
 extension Transition : UIViewControllerAnimatedTransitioning {
 
-  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
     return transitionDuration
   }
 
   public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-    let containerView = transitionContext.containerView()
-    let duration = transitionDuration(transitionContext)
+    let containerView = transitionContext.containerView()!
     let screens : (from: UIViewController, to: UIViewController) = (
       transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!,
       transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!)
@@ -37,7 +36,9 @@ extension Transition : UIViewControllerAnimatedTransitioning {
       ? screens.to as UIViewController
       : screens.from as UIViewController
 
-    [viewController, presentedViewController].map { containerView.addSubview($0.view) }
+    for controller in [viewController, presentedViewController] {
+      if let subview = controller.view { containerView.addSubview(subview) }
+    }
 
     transition(presentedViewController, show: !presentingViewController)
 
