@@ -6,9 +6,9 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   Transition:
-    :path: "../../"
+    :path: ../../
 
 SPEC CHECKSUMS:
   Transition: 66d86e3ae1b8f0b3d9ba2000c7a45fbc17b066f2
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0
