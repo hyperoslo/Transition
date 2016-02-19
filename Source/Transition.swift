@@ -7,7 +7,7 @@ public class Transition: NSObject {
   public var transitionDuration: NSTimeInterval = 0.6
   public var animationDuration: NSTimeInterval = 0.3
   public var delay: NSTimeInterval = 0
-  public var spring: (damping: CGFloat, velocity: CGFloat) = (0, 0)
+  public var spring: (damping: CGFloat, velocity: CGFloat) = (1, 1)
   var closure: ((controller: UIViewController, show: Bool) -> Void)
 
   public required init(closure: ((controller: UIViewController, show: Bool) -> Void)) {
