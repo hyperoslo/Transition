@@ -6,6 +6,8 @@ public class Transition: NSObject {
 
   public var transitionDuration: NSTimeInterval = 0.6
   public var animationDuration: NSTimeInterval = 0.3
+  public var delay: NSTimeInterval = 0
+  public var spring: (damping: CGFloat, velocity: CGFloat) = (1, 1)
   var closure: ((controller: UIViewController, show: Bool) -> Void)
 
   public required init(closure: ((controller: UIViewController, show: Bool) -> Void)) {
@@ -42,10 +44,10 @@ extension Transition : UIViewControllerAnimatedTransitioning {
 
     transition(presentedViewController, show: !presentingViewController)
 
-    UIView.animateWithDuration(animationDuration, delay: 0.0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: {
+    UIView.animateWithDuration(animationDuration, delay: delay, usingSpringWithDamping: spring.damping, initialSpringVelocity: spring.velocity, options: .BeginFromCurrentState, animations: {
       self.transition(presentedViewController, show: self.presentingViewController)
-      }, completion: { completed in
-        transitionContext.completeTransition(completed)
+      }, completion: { finished in
+        transitionContext.completeTransition(finished)
         UIApplication.sharedApplication().keyWindow!.addSubview(screens.to.view)
     })
   }
