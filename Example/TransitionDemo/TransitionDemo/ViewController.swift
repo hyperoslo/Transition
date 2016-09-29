@@ -6,32 +6,32 @@ class ViewController: UIViewController {
   lazy var transition: Transition = {
     let transition = Transition() { controller, show in
       controller.view.transform = show
-        ? CGAffineTransformIdentity
-        : CGAffineTransformMakeScale(3, 3)
+        ? CGAffineTransform.identity
+        : CGAffineTransform(scaleX: 3, y: 3)
 
       controller.view.alpha = show ? 1 : 0
-      controller.view.backgroundColor = UIColor.redColor()
+      controller.view.backgroundColor = UIColor.red
     }
     
     return transition
   }()
 
   override func viewDidLoad() {
-    modalPresentationStyle = .Custom
+    modalPresentationStyle = .custom
 
     title = "Transition Demo"
-    view.backgroundColor = UIColor.whiteColor()
+    view.backgroundColor = UIColor.white
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add",
-      style: .Plain,
+      style: .plain,
       target: self,
-      action: "presentController")
+      action: #selector(ViewController.presentController))
   }
 
   func presentController() {
     let controller = UIViewController()
-    controller.view.backgroundColor = UIColor.greenColor()
+    controller.view.backgroundColor = UIColor.green
     controller.transitioningDelegate = transition
 
-    presentViewController(controller, animated: true, completion: nil)
+    present(controller, animated: true, completion: nil)
   }
 }
