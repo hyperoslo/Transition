@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 
     title = "Transition Demo"
     view.backgroundColor = UIColor.white
-    navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add",
+    navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Transition",
       style: .plain,
       target: self,
       action: #selector(ViewController.presentController))
