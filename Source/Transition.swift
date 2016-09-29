@@ -1,36 +1,36 @@
 import UIKit
 
-public class Transition: NSObject {
+open class Transition: NSObject {
 
-  private var presentingViewController = false
+  fileprivate var presentingViewController = false
 
-  public var transitionDuration: NSTimeInterval = 0.6
-  public var animationDuration: NSTimeInterval = 0.3
-  public var delay: NSTimeInterval = 0
-  public var spring: (damping: CGFloat, velocity: CGFloat) = (1, 1)
-  var closure: ((controller: UIViewController, show: Bool) -> Void)
+  open var transitionDuration: TimeInterval = 0.6
+  open var animationDuration: TimeInterval = 0.3
+  open var delay: TimeInterval = 0
+  open var spring: (damping: CGFloat, velocity: CGFloat) = (1, 1)
+  var closure: ((_ controller: UIViewController, _ show: Bool) -> Void)
 
-  public required init(closure: ((controller: UIViewController, show: Bool) -> Void)) {
+  public required init(closure: @escaping ((_ controller: UIViewController, _ show: Bool) -> Void)) {
     self.closure = closure
     super.init()
   }
 
-  func transition(controller: UIViewController, show: Bool) {
-    closure(controller: controller, show: show)
+  func transition(_ controller: UIViewController, show: Bool) {
+    closure(controller, show)
   }
 }
 
 extension Transition : UIViewControllerAnimatedTransitioning {
 
-  public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+  public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
     return transitionDuration
   }
 
-  public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-    let containerView = transitionContext.containerView()!
+  public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    let containerView = transitionContext.containerView
     let screens : (from: UIViewController, to: UIViewController) = (
-      transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!,
-      transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!)
+      transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!,
+      transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!)
     let presentedViewController = !presentingViewController
       ? screens.from as UIViewController
       : screens.to as UIViewController
@@ -44,25 +44,25 @@ extension Transition : UIViewControllerAnimatedTransitioning {
 
     transition(presentedViewController, show: !presentingViewController)
 
-    UIView.animateWithDuration(animationDuration, delay: delay, usingSpringWithDamping: spring.damping, initialSpringVelocity: spring.velocity, options: .BeginFromCurrentState, animations: {
+    UIView.animate(withDuration: animationDuration, delay: delay, usingSpringWithDamping: spring.damping, initialSpringVelocity: spring.velocity, options: .beginFromCurrentState, animations: {
       self.transition(presentedViewController, show: self.presentingViewController)
       }, completion: { finished in
         transitionContext.completeTransition(finished)
-        UIApplication.sharedApplication().keyWindow!.addSubview(screens.to.view)
+        UIApplication.shared.keyWindow!.addSubview(screens.to.view)
     })
   }
 }
 
 extension Transition : UIViewControllerTransitioningDelegate {
 
-  public func animationControllerForPresentedController(presented: UIViewController,
-    presentingController presenting: UIViewController,
-    sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+  public func animationController(forPresented presented: UIViewController,
+    presenting: UIViewController,
+    source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
       presentingViewController = true
       return self
   }
 
-  public func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+  public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     presentingViewController = false
     return self
   }
