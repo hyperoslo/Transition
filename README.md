@@ -1,5 +1,7 @@
 # Transition
 
+⚠️ DEPRECATED, NO LONGER MAINTAINED
+
 [![CI Status](http://img.shields.io/travis/zenangst/Transition.svg?style=flat)](https://travis-ci.org/zenangst/Transition)
 [![Version](https://img.shields.io/cocoapods/v/Transition.svg?style=flat)](http://cocoadocs.org/docsets/Transition)
 [![License](https://img.shields.io/cocoapods/l/Transition.svg?style=flat)](http://cocoadocs.org/docsets/Transition)
